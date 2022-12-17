@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/fontawesome-free-solid'
 import {useNavigate} from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export default function TvShowList() {
     const [shows, setShows] = useState([]) 
@@ -79,7 +81,16 @@ export default function TvShowList() {
                     const {id,name,image,summary,rating} = show || {}
                     return (
                         <div key={id} className="card col-md-2 col-6 pr-4" style={{borderRadius:'0px', border:'0px'}}>
-                            <img src={image.medium} onClick={()=>goToShowDetails(id,name)} alt='showimg' style={{cursor:'pointer'}}/>
+                            <LazyLoadImage
+                                alt={name}
+                                onClick={()=>goToShowDetails(id,name)}  style={{cursor:'pointer'}}
+                                width={'100%'}
+                                height={'100%'}
+                                src={image.medium} // use normal <img> attributes as props
+                                
+                                
+                                />
+                                
                             <div className="star-ratings-card pt-2">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="ratings">

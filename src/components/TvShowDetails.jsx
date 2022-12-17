@@ -120,17 +120,29 @@ export default function TvShowDetails() {
                         <div className='col-12 col-md-7 col-lg-6'>
                             <div className='col-12 py-5 pb-2'><h5>Starring</h5></div>
                             <table className="table table-responsive align-middle">
+                                
                                 <tbody>
                                     {_embedded?.cast?.map((castObj,i)=>{
                                         return(
                                             <tr key={i}>
-                                                <th className="userIconColor ps-0 d-none d-md-block align-middle" scope="row"><FontAwesomeIcon icon={faUserCircle} size="2x" /></th>
-                                                <th className="userIconColor ps-0 d-block d-md-none align-middle" style={{height:'86px'}} scope="row"><FontAwesomeIcon icon={faUserCircle} size="3x" /></th>
+                                                <td className="userIconColor ps-0 align-middle" scope="row">
+                                                <img width={40} src={castObj?.person?.image?.medium} />
+
+                                                </td>
                                                 <td className="" noWrap>
                                                     {castObj.person.name}
                                                     <div className="userIconColor d-block d-md-none">{castObj.character.name}</div>
                                                 </td>
-                                                <td className="userIconColor d-none d-md-block" noWrap>{castObj.character.name}</td>
+                                               
+                                                <td>
+                                                <img width={40} src={castObj?.character?.image?.medium} />
+
+                                                </td>
+                                                
+                                                <td className="userIconColor">
+                                                    {castObj.character.name}
+                                                </td>
+                                                {/* <td className="userIconColor d-none d-md-block" >{castObj.character.name}</td> */}
                                             </tr>
                                         )
                                         })
