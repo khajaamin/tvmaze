@@ -96,12 +96,12 @@ export default function TvShowList() {
                 {currentPageRows.length > 0 ? (
                     <section style={{ marginTop: '-90px' }}>
                         <div className="row mb-4 side-padding">
-                            {currentPageRows.map((show, index) => {
-                                const { id, name, image, summary, rating } =
-                                    show || {}
+                            {currentPageRows.map((showItem, index) => {
+                                const { id, name, image,show, summary, rating } =
+                                showItem || {}
                                 return (
                                     <div
-                                        key={id}
+                                        key={index}
                                         className="card col-md-2 col-6 pr-4"
                                         style={{
                                             borderRadius: '0px',
@@ -111,15 +111,15 @@ export default function TvShowList() {
                                         <LazyLoadImage
                                             alt={name}
                                             onClick={() =>
-                                                goToShowDetails(id, name)
+                                                goToShowDetails(show.id, name)
                                             }
                                             style={{ cursor: 'pointer' }}
                                             width={'100%'}
-                                            height={'100%'}
-                                            src={image.medium} // use normal <img> attributes as props
+                                           
+                                            src={show.image.medium} // use normal <img> attributes as props
                                         />
 
-                                        <div className="star-ratings-card pt-2">
+                                        {rating.average?<div className="star-ratings-card pt-2">
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="ratings">
                                                     <i className="rating-color ms-1">
@@ -152,15 +152,12 @@ export default function TvShowList() {
                                                     {rating.average}
                                                 </h5>
                                             </div>
-                                        </div>
+                                        </div>:null}
                                         <div
                                             className="card-body px-0"
                                             style={{ fontSize: '14px' }}
                                             dangerouslySetInnerHTML={{
-                                                __html: summary.substring(
-                                                    0,
-                                                    100
-                                                ),
+                                                __html: summary?summary: show.summary,
                                             }}
                                         ></div>
                                     </div>
@@ -187,6 +184,7 @@ export default function TvShowList() {
                                     {noOfPages.map((i, index) => {
                                         return (
                                             <li
+                                            key={'page'+index}
                                                 className={`page-item d-none d-md-block ${
                                                     index === currentPage - 1
                                                         ? 'active'
