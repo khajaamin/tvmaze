@@ -14,7 +14,7 @@ root.render(
     <BrowserRouter>
       <Routes>
       <Route path="/" element={<TvShowList />} />
-      <Route path="/showdetails/:id/:name" element={<TvShowDetails />} />
+      <Route path="/showdetails/:id" element={<TvShowDetails />} />
       </Routes>
     </BrowserRouter>
 );

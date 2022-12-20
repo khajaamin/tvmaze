@@ -6,6 +6,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { get } from '../api/api_helper'
 import { GET_SHOW_LIST } from '../api/api_url'
+import RatingStar from './rattings'
 
 export default function TvShowList() {
     const [shows, setShows] = useState([])
@@ -71,7 +72,7 @@ export default function TvShowList() {
     }, [currentPage, getCurrentPageRecords])
 
     const goToShowDetails = (id, name) => {
-        navigate(`/showdetails/${id}/${name}`)
+        navigate(`/showdetails/${id}`)
     }
 
     return (
@@ -97,7 +98,7 @@ export default function TvShowList() {
                     <section style={{ marginTop: '-90px' }}>
                         <div className="row mb-4 side-padding">
                             {currentPageRows.map((showItem, index) => {
-                                const { id, name, image,show, summary, rating } =
+                                const { id, name, airtime, image,show, summary, rating } =
                                 showItem || {}
                                 return (
                                     <div
@@ -118,48 +119,18 @@ export default function TvShowList() {
                                            
                                             src={show.image.medium} // use normal <img> attributes as props
                                         />
-
-                                        {rating.average?<div className="star-ratings-card pt-2">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div className="ratings">
-                                                    <i className="rating-color ms-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    </i>
-                                                    <i className="rating-color ms-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    </i>
-                                                    <i className="rating-color ms-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    </i>
-                                                    <i className="rating-color ms-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    </i>
-                                                    <i className="ms-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    </i>
-                                                </div>
-                                                <h5 className="review-count mt-2">
-                                                    {rating.average}
-                                                </h5>
-                                            </div>
-                                        </div>:null}
-                                        <div
+                                        <div className='name-title'><strong>{name}</strong></div>
+                                        <div className='airtime-lable'>{airtime}</div>
+                                        
+                                        {rating?<RatingStar rating={rating.average}> </RatingStar>:null}
+                                            
+                                        {/* <div
                                             className="card-body px-0"
                                             style={{ fontSize: '14px' }}
                                             dangerouslySetInnerHTML={{
                                                 __html: summary?summary: show.summary,
                                             }}
-                                        ></div>
+                                        ></div> */}
                                     </div>
                                 )
                             })}

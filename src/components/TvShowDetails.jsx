@@ -6,6 +6,7 @@ import { faStar, faUserCircle } from '@fortawesome/fontawesome-free-solid'
 import { useParams } from 'react-router-dom';
 import {get} from '../api/api_helper';
 import {GET_SHOW_DETAIL} from '../api/api_url'
+import RatingStar from './rattings';
 
 library.add(faUserCircle);
 export default function TvShowDetails() {
@@ -67,42 +68,7 @@ export default function TvShowDetails() {
                                 </div>
                                 <div className="col-12 col-md-7 col-lg-8">
                                     <div className="star-ratings-card py-3">
-                                        <div className="d-flex align-items-center">
-                                            <div className="ratings">
-                                                <i className="rating-color ms-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faStar}
-                                                    />
-                                                </i>
-                                                <i className="rating-color ms-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faStar}
-                                                    />
-                                                </i>
-                                                <i className="rating-color ms-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faStar}
-                                                    />
-                                                </i>
-                                                <i className="rating-color ms-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faStar}
-                                                    />
-                                                </i>
-                                                <i className="ms-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faStar}
-                                                    />
-                                                </i>
-                                            </div>
-                                            <div className="mt-2">
-                                                <h5 className="review-count">
-                                                    {rating
-                                                        ? rating.average
-                                                        : 0}
-                                                </h5>
-                                            </div>
-                                        </div>
+                                        {rating?<RatingStar rating={rating.average}></RatingStar>:null}
                                     </div>
                                     <h4>{name} </h4>
                                     <div
@@ -112,9 +78,9 @@ export default function TvShowDetails() {
                                         }}
                                     ></div>
                                     <div className='grid'>
-                                        {showDetails?.genres?.map((item) => {
+                                        {showDetails?.genres?.map((item,index) => {
                                             return (
-                                                <div className='badge rounded-pill text-bg-secondary me-1'>
+                                                <div key={'badge'+index} className='badge rounded-pill text-bg-secondary me-1'>
                                                     {item}
                                                 </div>
                                             )
@@ -139,8 +105,8 @@ export default function TvShowDetails() {
                                                     Streamed On
                                                 </th>
                                                 <td className="userIconColor">
-                                                    {webChannel !== ''
-                                                        ? webChannel
+                                                    {webChannel
+                                                        ? webChannel.name
                                                         : ''}
                                                 </td>
                                             </tr>
@@ -197,9 +163,7 @@ export default function TvShowDetails() {
                                                 Streamed On
                                             </label>
                                             <label className="userIconColor col-12">
-                                                {webChannel !== ''
-                                                    ? webChannel
-                                                    : ''}
+                                                {webChannel? webChannel.name: ''}
                                             </label>
                                         </div>
                                         <div className="col-6">
@@ -261,7 +225,7 @@ export default function TvShowDetails() {
                                                             </td>
                                                             <td
                                                                 className=""
-                                                                noWrap
+                                                                
                                                             >
                                                                 {
                                                                     castObj
