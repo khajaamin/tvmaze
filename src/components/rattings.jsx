@@ -1,10 +1,9 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faUserCircle } from '@fortawesome/fontawesome-free-solid'
+import { faStar } from '@fortawesome/fontawesome-free-solid'
 
  const RatingStar = (props) => {
 
-    console.log('props.rating',props.rating)
     let allstars = []
     const colorStart = []
     const star = []

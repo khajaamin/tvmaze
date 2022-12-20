@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/fontawesome-free-solid'
 import { useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { get } from '../api/api_helper'
 import { GET_SHOW_LIST } from '../api/api_url'
 import RatingStar from './rattings'
+import { useSelector, useDispatch } from 'react-redux'
+import { addShowsInStore } from '../redux/action'
 
 export default function TvShowList() {
-    const [shows, setShows] = useState([])
+    const dispatch = useDispatch()
+    // const [shows, setShows] = useState([])
     const [currentPageRows, setCurrentPageRows] = useState([])
     const [currentPage, setCurrentPage] = useState(0)
     const rowsPerPage = 12
     const [noOfPages, setNoOfPages] = useState([])
+    const shows = useSelector((state) => state.shows)
 
     const navigate = useNavigate()
 
@@ -21,7 +23,8 @@ export default function TvShowList() {
         try {
             await get(GET_SHOW_LIST).then((res) => {
                 if (res.length > 0) {
-                    setShows(res)
+                    // setShows(res)
+                    dispatch(addShowsInStore(res))
                     setCurrentPage(1)
                     let pagesArr = []
                     for (let i = 1; i <= res.length / rowsPerPage; i++) {
@@ -30,25 +33,12 @@ export default function TvShowList() {
                     setNoOfPages(pagesArr)
                 }
             })
-            // const data = await axios.get('https://api.tvmaze.com/shows').then((apiResponse) => {
-            //     return apiResponse.data;
-            // });
-            // if(data.length > 0){
-            //     console.log(data);
-            //     setShows(data)
-            //     setCurrentPage(1);
-            //     let pagesArr = [];
-            //     for(let i =1 ; i <= data.length/rowsPerPage; i++){
-            //         pagesArr.push(i)
-            //     }
-            //     setNoOfPages(pagesArr)
-            // }
         } catch (error) {
             if (error.response) {
                 console.log('Error Response', error.response)
             }
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         getShowsList()
@@ -98,8 +88,8 @@ export default function TvShowList() {
                     <section style={{ marginTop: '-90px' }}>
                         <div className="row mb-4 side-padding">
                             {currentPageRows.map((showItem, index) => {
-                                const { id, name, airtime, image,show, summary, rating } =
-                                showItem || {}
+                                const { name, airtime, show, rating } =
+                                    showItem || {}
                                 return (
                                     <div
                                         key={index}
@@ -116,14 +106,21 @@ export default function TvShowList() {
                                             }
                                             style={{ cursor: 'pointer' }}
                                             width={'100%'}
-                                           
                                             src={show.image.medium} // use normal <img> attributes as props
                                         />
-                                        <div className='name-title'><strong>{name}</strong></div>
-                                        <div className='airtime-lable'>{airtime}</div>
-                                        
-                                        {rating?<RatingStar rating={rating.average}> </RatingStar>:null}
-                                            
+                                        <div className="name-title">
+                                            <strong>{name}</strong>
+                                        </div>
+                                        <div className="airtime-lable">
+                                            {airtime}
+                                        </div>
+
+                                        {rating ? (
+                                            <RatingStar rating={rating.average}>
+                                                {' '}
+                                            </RatingStar>
+                                        ) : null}
+
                                         {/* <div
                                             className="card-body px-0"
                                             style={{ fontSize: '14px' }}
@@ -155,7 +152,7 @@ export default function TvShowList() {
                                     {noOfPages.map((i, index) => {
                                         return (
                                             <li
-                                            key={'page'+index}
+                                                key={'page' + index}
                                                 className={`page-item d-none d-md-block ${
                                                     index === currentPage - 1
                                                         ? 'active'

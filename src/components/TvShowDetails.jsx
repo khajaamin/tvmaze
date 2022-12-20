@@ -1,15 +1,18 @@
 import { useEffect, useState,useCallback } from 'react'
 // import showImage from '../assets/images/show_image.jpg'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faUserCircle } from '@fortawesome/fontawesome-free-solid'
+import {  faUserCircle } from '@fortawesome/fontawesome-free-solid'
 import { useParams } from 'react-router-dom';
 import {get} from '../api/api_helper';
 import {GET_SHOW_DETAIL} from '../api/api_url'
 import RatingStar from './rattings';
+// import { useSelector } from 'react-redux'
+ 
 
 library.add(faUserCircle);
 export default function TvShowDetails() {
+    // const showsObj = useSelector(state => state.shows);
+    // console.log('showsObjshowsObj--',showsObj);
     const [showDetails, setShowDetails] = useState({}) 
     const {name,image,summary,rating,genres,status, schedule,webChannel, _embedded} = showDetails || {}
 
@@ -22,13 +25,6 @@ export default function TvShowDetails() {
                     setShowDetails(res);
                 }
             })
-            // const data = await axios.get(`https://api.tvmaze.com/shows/${id}?embed=cast`).then((apiResponse) => {
-            //     return apiResponse.data;
-            // });
-            // if(data){
-            //     console.log(data);
-            //     setShowDetails(data);
-            // }
         } catch (error) {
             if (error.response) {
                 console.log('Error Response',error.response);
@@ -214,7 +210,10 @@ export default function TvShowDetails() {
                                                             <td className="userIconColor ps-0 align-middle">
                                                                 <img
                                                                     width={40}
-                                                                    alt={'alt'}
+                                                                    alt={castObj
+                                                                        ?.person
+                                                                        ?.image
+                                                                        ?.medium}
                                                                     src={
                                                                         castObj
                                                                             ?.person
@@ -244,7 +243,10 @@ export default function TvShowDetails() {
                                                             <td>
                                                                 <img
                                                                     width={40}
-                                                                    alt={'alt'}
+                                                                    alt={castObj
+                                                                        ?.character
+                                                                        ?.image
+                                                                        ?.medium}
                                                                     src={
                                                                         castObj
                                                                             ?.character
